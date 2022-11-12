@@ -1,0 +1,43 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
+
+}
+
+main {
+    
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#playground {
+    border: solid 5px black;
+    width: 80vw;
+    height: 80vh;
+}
+
+#snake {
+    position: relative;
+    top: 10px;
+    left: 0px;
+    background-color: greenyellow;
+    width: 80px;
+    height: 10px;
+    border-radius: 3px;
+}
+
+/* #snakes-eye {
+    position: relative;
+    top: 1px;
+    left: 5px;
+    background-color: black;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+} */
+
