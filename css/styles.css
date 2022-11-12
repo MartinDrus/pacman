@@ -4,7 +4,7 @@
     margin: 0;
     padding: 0;
     box-sizing: content-box;
-
+    background-color: rgb(128, 108, 84);
 }
 
 main {
@@ -23,10 +23,10 @@ main {
 
 #snake {
     position: relative;
-    top: 10px;
+    top: 0px;
     left: 0px;
     background-color: greenyellow;
-    width: 80px;
+    width: 10px;
     height: 10px;
     border-radius: 3px;
 }
