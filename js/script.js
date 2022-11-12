@@ -21,38 +21,56 @@ document.addEventListener("keydown", changeDirection);
 
 function changeDirection(e){
     let directionSelectedByUser = e.key;
+    let newPosX;
+    let newPosY;
+
 
 
 
     if (currentDirection !== directionSelectedByUser) {
-        switch (e.key) {
+        switch (directionSelectedByUser) {
             case "ArrowUp":
-                
+                newPosY = letsGoSnake(currentPosY)
+
+                currentDirection = "ArrowUp";
                 break;
             case "ArrowDown":
-                
+                newPosY = letsGoSnake(currentPosY)
+
+                currentDirection = "ArrowDown";
                 break;
             case "ArrowRight":
+                newPosX = letsGoSnake(currentPosX)
                 
+                currentDirection = "ArrowRight";
                 break;
             case "ArrowLeft":
-                
+                newPosX = letsGoSnake(currentPosX)
+
+                currentDirection = "ArrowLeft";
                 break;  
             default:
                 break;
         }
+
+        if (currentDirection === "ArrowRight" || currentDirection === "ArrowLeft") {
+            theSnake.style.left = `${newPosX}px`
+        } else if (currentDirection === "ArrowUp" || currentDirection === "ArrowDown") {
+            theSnake.style.top = `${newPosY}px`
+        }
+
     }
 
-    theSnake.style.left = `${currentPosX}px`
+
 
 }
 
 
-// setInterval((e) => {
-//     let test = letsGoSnake()
-//     console.log(test);
-//     console.log(e);
-// }, 2000);
+setInterval((e) => {
+    let test = letsGoSnake()
+    console.log(test);
+    console.log(e);
+}, 2000);
 
 
 
@@ -60,7 +78,6 @@ function letsGoSnake(currentPosXY) {
     return currentPosXY + motionSpeed;
 }
 
-console.log(letsGoSnake());
 
 
 
