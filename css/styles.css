@@ -5,6 +5,7 @@
     padding: 0;
     box-sizing: content-box;
     background-color: rgb(128, 108, 84);
+    overflow: hidden;
 }
 
 header {

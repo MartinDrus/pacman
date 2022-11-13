@@ -1,6 +1,7 @@
 
+let main = document.querySelector("main");
 let theSnake = document.querySelector("#snake");
-let pacMan = document.querySelector("img")
+let pacMan = document.querySelector("img");
 
 class Snake {
     motionSpeed = 1;
@@ -13,6 +14,19 @@ class Snake {
         this.snakeHeadSize = parseInt(getComputedStyle(theSnake).width.slice(0, -2));
         this.currentPosX = 0;
         this.currentPosY = 0;
+    }
+
+    setPosX(posX) {
+        this.currentPosX = posX;
+    }
+
+    setPosY(posY) {
+        this.currentPosY = posY;
+    }
+
+    resetPosX() {
+        this.setPosX(0);
+        this.setPosY(0);
     }
 
     getSnakeSize(){
@@ -90,18 +104,24 @@ class Snake {
 
     tryAgain(nIntervId){
         clearInterval(nIntervId);
+        this.resetPosX();
+
         let container = document.createElement('div');
+        container.style.position = "relative";
+        container.style.left = "50%";
+        container.style.top = "50%";
 
         let text = document.createElement('h2');
         text.innerText = "Try Again!";
         
         let retryBtn = document.createElement('button');
         retryBtn.id = "retry-btn";
+        retryBtn.innerHTML = "Retry"
 
         container.appendChild(text);
         container.appendChild(retryBtn);
 
-        document.body.appendChild(container);
+        main.appendChild(container);
     }
 
 }
