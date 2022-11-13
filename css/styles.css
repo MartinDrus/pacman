@@ -7,9 +7,23 @@
     background-color: rgb(128, 108, 84);
 }
 
+header {
+    height: 8vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#start-btn {
+    width: 100px;
+    height: 5vh;
+    margin-bottom: 1em;;
+}
+
 main {
     
-    height: 100vh;
+    height: 92vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,21 +37,31 @@ main {
 
 #snake {
     position: relative;
-    top: 0px;
-    left: 0px;
+    /* top: 0px;
+    left: 0px; */
+
     background-color: greenyellow;
     width: 10px;
     height: 10px;
     border-radius: 3px;
 }
 
-/* #snakes-eye {
+
+
+#target {
+    display: none;
     position: relative;
-    top: 1px;
-    left: 5px;
-    background-color: black;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-} */
+    /* top: -10px;
+    left: 0px; */
+
+    background-color: red;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+
+
+
+
+
+}
 
