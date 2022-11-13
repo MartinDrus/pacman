@@ -30,10 +30,6 @@ class Target{
         this.posY = newPosY;
     }
 
-
-
-
-
     renderRandomizedTarget(){
         let newPosX = Math.floor(Math.random()*this.cageWidth);
         let newPosY = Math.floor(Math.random()*this.cageHeight);
@@ -46,25 +42,14 @@ class Target{
         dot.style.display = "block";
     }
 
-
-
-
-
     gotMe(snakePos){
-        if (Math.abs(snakePos.x - this.getPosX()) <= 10 && Math.abs(snakePos.y - (this.getPosY()+10)) <= 10) {
+        if (Math.abs(snakePos.x - this.getPosX()) <= 15 && Math.abs(snakePos.y - (this.getPosY()+20)) <= 15) {
 
-
-            //console.log(Math.abs(snakePos.x - this.getPosX())+"  "+Math.abs(snakePos.y - this.getPosY()));
             this.renderRandomizedTarget();
             this.scoreCount++;
         }
-
         score.innerHTML = `Score: ${this.scoreCount}`
-        
-
     }
-
-
 
 }
 
