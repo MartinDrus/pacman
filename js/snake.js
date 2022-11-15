@@ -1,7 +1,9 @@
 
-let main = document.querySelector("main");
+let retryContainer = document.querySelector("#retry-alert");
 let theSnake = document.querySelector("#snake");
 let pacMan = document.querySelector("img");
+let target = document.querySelector("#target")
+
 
 class Snake {
     motionSpeed = 1;
@@ -16,21 +18,25 @@ class Snake {
         this.currentPosY = 0;
     }
 
+    getPosX(){
+        return this.currentPosX;
+    }
+
     setPosX(posX) {
         this.currentPosX = posX;
+    }
+
+    getPosY(){
+        return this.currentPosY;
     }
 
     setPosY(posY) {
         this.currentPosY = posY;
     }
 
-    resetPosX() {
-        this.setPosX(0);
-        this.setPosY(0);
-    }
 
     getSnakeSize(){
-        return snakeHeadSize;
+        return this.snakeHeadSize;
     }
 
     changeDirection(e){
@@ -67,6 +73,10 @@ class Snake {
     }
 
     letsGoSnake(nIntervId) {
+        retryContainer.style.display = "none";
+        theSnake.style.display = "block";
+        pacMan.style.display = "block";
+
         let pos = {};
 
         switch (this.currentDirection) {
@@ -104,24 +114,18 @@ class Snake {
 
     tryAgain(nIntervId){
         clearInterval(nIntervId);
-        this.resetPosX();
+        this.currentDirection = "ArrowRight";
+        pacMan.style.transform = "rotate(0turn)";
 
-        let container = document.createElement('div');
-        container.style.position = "relative";
-        container.style.left = "50%";
-        container.style.top = "50%";
+        retryContainer.style.display = "flex";
+        theSnake.style.display = "none";
+        pacMan.style.display = "none";
+        target.style.display = "none";
 
-        let text = document.createElement('h2');
-        text.innerText = "Try Again!";
-        
-        let retryBtn = document.createElement('button');
-        retryBtn.id = "retry-btn";
-        retryBtn.innerHTML = "Retry"
+        this.setPosX(0);
+        this.setPosY(0);
 
-        container.appendChild(text);
-        container.appendChild(retryBtn);
 
-        main.appendChild(container);
     }
 
 }

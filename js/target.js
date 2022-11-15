@@ -1,5 +1,5 @@
 
-let dot = document.querySelector("#target")
+let dot = document.querySelector("#target");
 let score = document.querySelector("#score");
 
 class Target{
@@ -31,8 +31,12 @@ class Target{
     }
 
     renderRandomizedTarget(){
-        let newPosX = Math.floor(Math.random()*this.cageWidth);
-        let newPosY = Math.floor(Math.random()*this.cageHeight);
+
+        // The maximum is inclusive and the minimum is inclusive
+        let newPosX = this.getRandomIntInclusive(10, (this.cageWidth-10));
+        let newPosY = this.getRandomIntInclusive(10, (this.cageHeight-10));;
+
+        console.log("newPosX: "+newPosX+"    newPosY: "+newPosY);
 
         this.setPosX(newPosX)
         this.setPosY(newPosY)
@@ -49,6 +53,13 @@ class Target{
             this.scoreCount++;
         }
         score.innerHTML = `Score: ${this.scoreCount}`
+    }
+
+    getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1) + min); 
+        // The maximum is inclusive and the minimum is inclusive
     }
 
 }
