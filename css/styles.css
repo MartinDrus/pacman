@@ -8,7 +8,7 @@
 }
 
 header {
-    height: 8%;
+    height: 8vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -23,7 +23,7 @@ header {
 
 main {
     
-    height: 92%;
+    height: 92vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,67 +32,13 @@ main {
 
 }
 
-#playground {
-    box-sizing: content-box;
-    border: solid 5px black;
-    width: 80vw;
-    height: 80vh;
-    background-color: rgb(121, 101, 72);
 
-}
-
-#snake {
-    position: relative;
-    /* top: 0px;
-    left: 0px; */
-
-    /* background-color: greenyellow; */
-    width: 20px;
-    height: 20px;
-    /* border-radius: 3px; */
-}
-
-#snake img {
-    width: 20px;
-    height: 20px;
+#canvas {
+    border:  solid;
 }
 
 
 
-#target {
-    display: none;
-    position: relative;
-    /* top: -10px;
-    left: 0px; */
 
-    background-color: red;
-    width: 20px;
-    height: 20px;
-    border-radius: 3px;
-
-}
-
-#retry-alert {
-    display: none;
-
-    position: absolute;
-
-    /* display: flex; */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    width: 200px;
-    height: 100px;
-    border: solid black 2px;
-    margin: auto;
-
-
-}
-
-#retry-alert button {
-    width: 80px;
-    height: 30px;
-}
 
 

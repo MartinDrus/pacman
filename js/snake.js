@@ -1,43 +1,41 @@
 
-let retryContainer = document.querySelector("#retry-alert");
-let theSnake = document.querySelector("#snake");
-let pacMan = document.querySelector("img");
-let target = document.querySelector("#target")
+let canvas = document.querySelector("#canvas");
+let c = canvas.getContext("2d");
+
 
 
 class Snake {
-    motionSpeed = 1;
     currentDirection = "ArrowRight";
+    speed = 1;
+    radius = 15;
 
-    constructor(cage){
-        this.limitX = cage.getWidth();
-        this.limitY = cage.getHeight();
-        this.wallSize = cage.getBorderSize();
-        this.snakeHeadSize = parseInt(getComputedStyle(theSnake).width.slice(0, -2));
-        this.currentPosX = 0;
-        this.currentPosY = 0;
+    constructor(){
+        this.posX = this.radius;
+        this.posY = this.radius;
+        this.limitX = innerWidth - 100;
+        this.limitY = innerHeight - 200;
+        this.startAngle = 0.25;
+        this.endAngle = 1.25;
+        this.eyeX = 0;
+        this.eyeY = -10;
     }
 
-    getPosX(){
-        return this.currentPosX;
+    draw = function() {
+        c.beginPath();
+        c.arc(this.posX, this.posY, this.radius, this.startAngle * Math.PI, this.endAngle * Math.PI, false);
+        c.fillStyle = "rgb(255, 255, 0)";
+        c.fill();
+        c.beginPath();
+        c.arc(this.posX, this.posY, this.radius, (this.startAngle + 0.5) * Math.PI, (this.endAngle + 0.5) * Math.PI, false);
+        c.fill();
+        c.beginPath();
+        c.arc(this.posX + this.eyeX, this.posY + this.eyeY, 2.5, 0, 2 * Math.PI, false);
+        c.fillStyle = "rgb(0, 0, 0)";
+        c.fill();
+        
     }
 
-    setPosX(posX) {
-        this.currentPosX = posX;
-    }
-
-    getPosY(){
-        return this.currentPosY;
-    }
-
-    setPosY(posY) {
-        this.currentPosY = posY;
-    }
-
-
-    getSnakeSize(){
-        return this.snakeHeadSize;
-    }
+    
 
     changeDirection(e){
         let directionSelectedByUser = e.key;
@@ -46,88 +44,94 @@ class Snake {
             case "ArrowRight":
                 if (this.currentDirection !== "ArrowRight" && this.currentDirection !== "ArrowLeft") {
                     this.currentDirection = directionSelectedByUser;
-                    pacMan.style.transform = "rotate(0turn)";
+                    this.startAngle = 0.25;
+                    this.endAngle = 1.25;
+                    this.eyeX = 0;
+                    this.eyeY = -10;
                 }
                 break;
             case "ArrowLeft":
                 if (this.currentDirection !== "ArrowRight" && this.currentDirection !== "ArrowLeft") {
                     this.currentDirection = directionSelectedByUser;
-                    pacMan.style.transform = "scaleX(-1)";
+                    this.startAngle = 1.25;
+                    this.endAngle = 0.25;
+                    this.eyeX = 0;
+                    this.eyeY = -10;
                 }
                 break;
             case "ArrowUp":
                 if (this.currentDirection !== "ArrowUp" && this.currentDirection !== "ArrowDown") {
                     this.currentDirection = directionSelectedByUser;
-                    pacMan.style.transform = "rotate(0.75turn)";
+                    this.startAngle = 1.75;
+                    this.endAngle = 0.75;
+                    this.eyeX = 10;
+                    this.eyeY = 0;
+
                 }
                 break;
             case "ArrowDown":
                 if (this.currentDirection !== "ArrowUp" && this.currentDirection !== "ArrowDown") {
                     this.currentDirection = directionSelectedByUser;
-                    pacMan.style.transform = "rotate(0.25turn)";
+                    this.startAngle = 0.75;
+                    this.endAngle = 1.75;
+                    this.eyeX = 10;
+                    this.eyeY = 0;
                 }
                 break;
             default:
                 break;
         }
+
     }
 
-    letsGoSnake(nIntervId) {
-        retryContainer.style.display = "none";
-        theSnake.style.display = "block";
-        pacMan.style.display = "block";
+    // getPosX(){
+    //     return this.currentPosX;
+    // }
 
-        let pos = {};
+    // setPosX(posX) {
+    //     this.currentPosX = posX;
+    // }
 
+    // getPosY(){
+    //     return this.currentPosY;
+    // }
+
+    // setPosY(posY) {
+    //     this.currentPosY = posY;
+    // }
+
+
+    // getSnakeSize(){
+    //     return this.snakeHeadSize;
+    // }
+
+    letsGoSnake() {
         switch (this.currentDirection) {
             case "ArrowUp":
-                if (this.currentPosY > 0) {
-                    this.currentPosY -= this.motionSpeed;
-                } else this.tryAgain(nIntervId);
+                if (this.posY > this.radius) {
+                    this.posY -= this.speed;
+                }
                 break;
             case "ArrowDown":
-                if (this.currentPosY < (this.limitY - this.snakeHeadSize)) {
-                    this.currentPosY += this.motionSpeed;
-                } else this.tryAgain(nIntervId);
+                if (this.posY < this.limitY - this.radius ) {
+                    this.posY += this.speed;
+                }
                 break;
             case "ArrowRight":
-                if (this.currentPosX < (this.limitX - this.snakeHeadSize)) {
-                    this.currentPosX += this.motionSpeed;
-                } else this.tryAgain(nIntervId);
+                if (this.posX < this.limitX - this.radius ) {
+                    this.posX += this.speed;
+                } 
                 break;
             case "ArrowLeft":
-                if (this.currentPosX > 0) {
-                    this.currentPosX -= this.motionSpeed;
-                } else this.tryAgain(nIntervId);
+                if (this.posX > this.radius) {
+                    this.posX -= this.speed;
+                } 
                 break;  
             default:
                 break;
         }
-    
-        if (this.currentDirection === "ArrowRight" || this.currentDirection === "ArrowLeft") {
-            theSnake.style.left = `${this.currentPosX}px`;
-        } else if (this.currentDirection === "ArrowUp" || this.currentDirection === "ArrowDown") {
-            theSnake.style.top = `${this.currentPosY}px`;
-        }
-        return pos = {x: this.currentPosX, y: this.currentPosY}
+        this.draw();
     }
-
-    tryAgain(nIntervId){
-        clearInterval(nIntervId);
-        this.currentDirection = "ArrowRight";
-        pacMan.style.transform = "rotate(0turn)";
-
-        retryContainer.style.display = "flex";
-        theSnake.style.display = "none";
-        pacMan.style.display = "none";
-        target.style.display = "none";
-
-        this.setPosX(0);
-        this.setPosY(0);
-
-
-    }
-
 }
 
 export default Snake;
