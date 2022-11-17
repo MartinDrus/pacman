@@ -13,6 +13,8 @@ retryBox.style.display = "none";
 
 let myReq;
 
+let isRunning = false;
+
 let snake = new Snake(limitX, limitY);
 let target = new Target(limitX, limitY);
 
@@ -45,14 +47,19 @@ init();
 
 document.addEventListener("keydown", (evt) => snake.changeDirection(evt));
 
-document.querySelector("#start-btn").addEventListener("click", triggerAnimation);
-document.querySelector("#retry-btn").addEventListener("click", triggerAnimation);
+console.log(isRunning);
 
-document.addEventListener("keydown", (evt) => {
-    if(evt.key === "Enter") triggerAnimation()}
-);
+document.querySelector("#start-btn").addEventListener("click", () => {if (!isRunning) triggerAnimation()});
+document.querySelector("#retry-btn").addEventListener("click", () => {if (!isRunning) triggerAnimation()});
+
+document.addEventListener("keydown", (evt) => {if(evt.key === "Enter" && !isRunning) triggerAnimation()});
 
 function triggerAnimation() {
+    isRunning = true;
+
+    console.log(isRunning);
+
+
     target.resetTargetAndScore();
     retryBox.style.display = "none";
     thirdCount.style.display = "block";
@@ -94,6 +101,8 @@ function animate() {
         cancelAnimationFrame(myReq);
         retryBox.style.display = "flex";
         snake.reset();
+        isRunning = false;
+
     }
 
 }
