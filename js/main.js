@@ -25,7 +25,6 @@ let thirdCount = document.querySelector("#id-3");
 
 
 document.addEventListener("resize", (evt) => {
-    console.log(evt);
     canvas.width = limitX;
     canvas.height = limitY;
 
@@ -47,8 +46,6 @@ init();
 
 document.addEventListener("keydown", (evt) => snake.changeDirection(evt));
 
-console.log(isRunning);
-
 document.querySelector("#start-btn").addEventListener("click", () => {if (!isRunning) triggerAnimation()});
 document.querySelector("#retry-btn").addEventListener("click", () => {if (!isRunning) triggerAnimation()});
 
@@ -56,9 +53,6 @@ document.addEventListener("keydown", (evt) => {if(evt.key === "Enter" && !isRunn
 
 function triggerAnimation() {
     isRunning = true;
-
-    console.log(isRunning);
-
 
     target.resetTargetAndScore();
     retryBox.style.display = "none";
@@ -102,7 +96,6 @@ function animate() {
         retryBox.style.display = "flex";
         snake.reset();
         isRunning = false;
-
     }
 
 }

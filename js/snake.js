@@ -31,7 +31,6 @@ class Snake {
 
     increaseSpeed(){
         this.speed += 0.25;
-        console.log(this.speed);
     }
 
     draw() {
@@ -53,8 +52,8 @@ class Snake {
         let directionSelectedByUser = e.key;
     
         switch (directionSelectedByUser) {
-            case "ArrowRight":
-                if (this.currentDirection !== "ArrowRight" && this.currentDirection !== "ArrowLeft") {
+            case "d":
+                if (this.currentDirection !== "d" && this.currentDirection !== "a") {
                     this.currentDirection = directionSelectedByUser;
                     this.startAngle = 0.25;
                     this.endAngle = 1.25;
@@ -62,7 +61,27 @@ class Snake {
                     this.eyeY = -10;
                 }
                 break;
-            case "ArrowLeft":
+            case "ArrowRight": 
+                if (this.currentDirection !== "ArrowRight" && this.currentDirection !== "ArrowLeft") {
+                    this.currentDirection = directionSelectedByUser;
+                    this.startAngle = 0.25;
+                    this.endAngle = 1.25;
+                    this.eyeX = 0;
+                    this.eyeY = -10;
+                }
+            
+                break;
+            case "a":
+                if (this.currentDirection !== "a" && this.currentDirection !== "d") {
+                    this.currentDirection = directionSelectedByUser;
+                    this.startAngle = 1.25;
+                    this.endAngle = 0.25;
+                    this.eyeX = 0;
+                    this.eyeY = -10;
+                }
+            
+                break;
+            case "ArrowLeft": 
                 if (this.currentDirection !== "ArrowRight" && this.currentDirection !== "ArrowLeft") {
                     this.currentDirection = directionSelectedByUser;
                     this.startAngle = 1.25;
@@ -70,8 +89,20 @@ class Snake {
                     this.eyeX = 0;
                     this.eyeY = -10;
                 }
+            
                 break;
-            case "ArrowUp":
+            case "w":
+                if (this.currentDirection !== "w" && this.currentDirection !== "s") {
+                    this.currentDirection = directionSelectedByUser;
+                    this.startAngle = 1.75;
+                    this.endAngle = 0.75;
+                    this.eyeX = 10;
+                    this.eyeY = 0;
+
+                }
+            
+                break;
+            case "ArrowUp": 
                 if (this.currentDirection !== "ArrowUp" && this.currentDirection !== "ArrowDown") {
                     this.currentDirection = directionSelectedByUser;
                     this.startAngle = 1.75;
@@ -80,8 +111,19 @@ class Snake {
                     this.eyeY = 0;
 
                 }
+            
                 break;
-            case "ArrowDown":
+            case "s":
+                if (this.currentDirection !== "s" && this.currentDirection !== "w") {
+                    this.currentDirection = directionSelectedByUser;
+                    this.startAngle = 0.75;
+                    this.endAngle = 1.75;
+                    this.eyeX = 10;
+                    this.eyeY = 0;
+                }
+            
+                break;
+            case "ArrowDown": 
                 if (this.currentDirection !== "ArrowUp" && this.currentDirection !== "ArrowDown") {
                     this.currentDirection = directionSelectedByUser;
                     this.startAngle = 0.75;
@@ -89,6 +131,7 @@ class Snake {
                     this.eyeX = 10;
                     this.eyeY = 0;
                 }
+            
                 break;
             default:
                 break;
@@ -100,21 +143,25 @@ class Snake {
         let collision = false;
         let pos = {};
         switch (this.currentDirection) {
+            case "w":
             case "ArrowUp":
                 if (this.posY > this.radius) {
                     this.posY -= this.speed;
                 } else collision = true;
                 break;
+            case "s":
             case "ArrowDown":
                 if (this.posY < this.limitY - this.radius ) {
                     this.posY += this.speed;
                 } else collision = true;
                 break;
+            case "d":
             case "ArrowRight":
                 if (this.posX < this.limitX - this.radius ) {
                     this.posX += this.speed;
                 } else collision = true;
                 break;
+            case "a":
             case "ArrowLeft":
                 if (this.posX > this.radius) {
                     this.posX -= this.speed;
