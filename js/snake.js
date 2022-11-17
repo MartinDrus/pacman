@@ -4,7 +4,7 @@ let c = canvas.getContext("2d");
 
 class Snake {
     currentDirection = "ArrowRight";
-    speed = 1;
+    speed = 5;
     radius = 15;
 
     constructor(limitX, limitY){
@@ -16,6 +16,22 @@ class Snake {
         this.endAngle = 1.25;
         this.eyeX = 0;
         this.eyeY = -10;
+    }
+
+    reset(){
+        this.posX = this.radius;
+        this.posY = this.radius;
+        this.currentDirection = "ArrowRight";
+        this.speed = 5;
+        this.startAngle = 0.25;
+        this.endAngle = 1.25;
+        this.eyeX = 0;
+        this.eyeY = -10;
+    }
+
+    increaseSpeed(){
+        this.speed += 0.25;
+        console.log(this.speed);
     }
 
     draw() {
@@ -81,34 +97,37 @@ class Snake {
     }
 
     letsGoSnake() {
+        let collision = false;
         let pos = {};
         switch (this.currentDirection) {
             case "ArrowUp":
                 if (this.posY > this.radius) {
                     this.posY -= this.speed;
-                }
+                } else collision = true;
                 break;
             case "ArrowDown":
                 if (this.posY < this.limitY - this.radius ) {
                     this.posY += this.speed;
-                }
+                } else collision = true;
                 break;
             case "ArrowRight":
                 if (this.posX < this.limitX - this.radius ) {
                     this.posX += this.speed;
-                } 
+                } else collision = true;
                 break;
             case "ArrowLeft":
                 if (this.posX > this.radius) {
                     this.posX -= this.speed;
-                } 
+                } else collision = true;
                 break;  
             default:
                 break;
         }
         this.draw();
-        return pos = {x: this.posX, y: this.posY};
+        return pos = {x: this.posX, y: this.posY, gameOver: collision};
     }
+
+
 }
 
 export default Snake;

@@ -1,9 +1,12 @@
 let canvas = document.querySelector("#canvas");
 let c = canvas.getContext("2d");
 
+let score = document.querySelector("#score");
+
 class Target{
 
     targetImg;
+    counter = 0;
 
     constructor(limitX, limitY){
         this.limitX = limitX;
@@ -11,8 +14,18 @@ class Target{
         this.posX = limitX/2;
         this.posY = limitY/2;
         this.radius = 15;
+    }
 
+    resetTargetAndScore(){
+        this.posX = this.limitX/2;
+        this.posY = this.limitY/2;
+        this.counter = 0
+        score.innerHTML = `Score: ${this.counter}`;
 
+    }
+    increaseCounter(){
+        this.counter++;
+        score.innerHTML = `Score: ${this.counter}`;
     }
 
 
@@ -44,25 +57,31 @@ class Target{
     }
 
     update(PacManPos) {
+        let gotYou = false;
+        //console.log(Math.abs(this.posX - (PacManPos.x - this.radius)) , Math.abs(this.posY - (PacManPos.y - this.radius)));
 
-        console.log(this.posX - (PacManPos.x - this.radius) , this.posY - (PacManPos.y - this.radius));
-
-        if((this.posX - (PacManPos.x - this.radius)) < 10 && (this.posY - (PacManPos.y - this.radius)) < 10) {
+        if((Math.abs((this.posX - (PacManPos.x - this.radius))) < 15) && Math.abs((this.posY - (PacManPos.y - this.radius))) < 15) {
 
             this.renderTargets();
             this.randomizePosition();
             this.draw();
+            gotYou = true;
         }
+        return gotYou;
     }
 
     randomizePosition(){
-        this.posX = Math.floor(Math.random() * (this.limitX - 110) + 110);
-        this.posY = Math.floor(Math.random() * (this.limitY - 110) + 110);
+        this.posX = this.getRandomIntInclusive(130, (canvas.width-30));
+        this.posY = this.getRandomIntInclusive(230, (canvas.height-30));
+
     }
 
-
-
- 
+    getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1) + min); 
+        // The maximum is inclusive and the minimum is inclusive
+      }
 
 }
 
