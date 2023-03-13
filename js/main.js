@@ -1,12 +1,18 @@
 import Target from "./target.js";
 import Snake from "./snake.js";
+import { getRanking, insertNewScore } from "./score.js";
+
+let topScorer = await getRanking(5)
 
 let canvas = document.querySelector("#canvas");
-let limitX = window.innerWidth - 100;
-let limitY = window.innerHeight - 200;
+let limitX = window.innerWidth - 200;
+let limitY = window.innerHeight - 300;
 canvas.width = limitX;
 canvas.height = limitY;
 let c = canvas.getContext("2d");
+
+let scorerName = document.querySelector("#name-input");
+let submitBtn = document.querySelector("#submit-btn");
 
 let retryBox = document.querySelector("#retry-box");
 retryBox.style.display = "none";
@@ -22,6 +28,15 @@ let firstCount = document.querySelector("#id-1");
 let secondCount = document.querySelector("#id-2");
 let thirdCount = document.querySelector("#id-3");
 
+submitBtn.addEventListener('click', async (evt)=>{
+    evt.preventDefault();
+    let score = target.getScore()
+    let username = scorerName.value;
+    if(!username) username = "noName";
+    await insertNewScore(username, score);
+    showTopScorer();
+    location.reload();
+})
 
 
 document.addEventListener("resize", (evt) => {
@@ -31,6 +46,21 @@ document.addEventListener("resize", (evt) => {
     init();
 });
 
+function showTopScorer() {
+    let scoreView = document.querySelector("#scoretab");
+    scoreView.replaceChildren();
+
+    let orderedList = document.createElement('ol');
+    topScorer.forEach((player, idx) => {
+        let li = document.createElement('li');
+        li.textContent = `${idx+1}. ${player.name}: ${player.score}`
+        orderedList.appendChild(li);
+    })
+
+    scoreView.appendChild(orderedList);
+
+}
+
 function init(){
     let snake = new Snake();
 
@@ -39,6 +69,8 @@ function init(){
     target.renderTargets()
 
     target.draw();
+
+    showTopScorer();
 }
 init();
 

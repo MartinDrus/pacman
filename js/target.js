@@ -28,6 +28,10 @@ class Target{
         score.innerHTML = `Score: ${this.counter}`;
     }
 
+    getScore(){
+        return this.counter;
+    }
+
 
     renderTargets(){
     let targetArray = [];

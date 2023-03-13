@@ -12,9 +12,9 @@
 #start-btn {
     font-size: 16pt;
     color: #FF0DEF;
-    width: 100px;
+    width: 80%;
     height: 5vh;
-    margin-bottom: 1em;;
+    margin: 1em;;
     border-radius: 5px;
     background-color: #121AB3;
     -webkit-box-shadow: 0px 0px 15px 7px #000000; 
@@ -33,10 +33,35 @@ main {
 
 }
 
+#controlContainer {
+    display: flex;
+    margin: 1 rem;
+}
+
+#innerBox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+}
+
 #score {
     font-size: 20pt;
     color: #FF0DEF;
     margin: 20px;
+}
+
+#scoretab {
+
+    margin: 1rem 1rem 2rem 2rem;
+    padding: 1rem;
+
+    font-size: 16pt;
+
+    background-color: #B312A8;
+    -webkit-box-shadow: 0px 0px 15px 7px #000000; 
+    box-shadow: 0px 0px 15px 7px #000000;
+    border: solid;
 }
 
 
@@ -51,7 +76,7 @@ main {
     position: absolute;
     
     width: 50vw;
-    height: 50vh;
+    height: 40vh;
     background-color: #0D1AFF ;
     border: solid;
     border-radius: 5px;
@@ -71,6 +96,25 @@ main {
     width: 100px;
     height: 5vh;
     margin-bottom: 1em;;
+    border-radius: 5px;
+    background-color: #121AB3;
+    -webkit-box-shadow: 0px 0px 15px 7px #000000; 
+    box-shadow: 0px 0px 15px 7px #000000;
+}
+
+#name-input {
+    font-size: 10pt;
+    height: 2vh;
+    border-radius: 5px;
+    padding: 0.5rem;
+}
+
+#submit-btn {
+    margin: 1rem;
+    font-size: 10pt;
+    color: #FF0DEF;
+    width: 100px;
+    height: 2vh;
     border-radius: 5px;
     background-color: #121AB3;
     -webkit-box-shadow: 0px 0px 15px 7px #000000; 
