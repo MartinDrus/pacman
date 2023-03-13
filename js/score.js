@@ -16,7 +16,7 @@ export async function insertNewScore(name, score) {
         score: parseInt(score)
     }
     try {
-        await axios.post(process.env.PATH, newBody)
+        await axios.post(process.env.PATH_URL, newBody)
 
     } catch (error) {
         console.error(error);
