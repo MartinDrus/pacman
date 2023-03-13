@@ -16,7 +16,7 @@ export async function insertNewScore(name, score) {
         score: parseInt(score)
     }
     try {
-        await axios.post(`https://pacman-backend-production.up.railway.app/ranking`, newBody)
+        await axios.post(process.env.PATH, newBody)
 
     } catch (error) {
         console.error(error);
