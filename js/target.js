@@ -1,55 +1,91 @@
+let canvas = document.querySelector("#canvas");
+let c = canvas.getContext("2d");
 
-let dot = document.querySelector("#target")
 let score = document.querySelector("#score");
 
 class Target{
 
-    scoreCount = 0;
+    targetImg;
+    counter = 0;
 
-    constructor(cage){
-        this.cage = cage;
-        this.cageWidth = cage.getWidth();
-        this.cageHeight = cage.getHeight();
-        this.posX = 0
-        this.posY = 0
+    constructor(limitX, limitY){
+        this.limitX = limitX;
+        this.limitY = limitY;
+        this.posX = limitX/2;
+        this.posY = limitY/2;
+        this.radius = 15;
     }
 
-    getPosX(){
-        return this.posX;
+    resetTargetAndScore(){
+        this.posX = this.limitX/2;
+        this.posY = this.limitY/2;
+        this.counter = 0
+        score.innerHTML = `Score: ${this.counter}`;
+
+    }
+    increaseCounter(){
+        this.counter++;
+        score.innerHTML = `Score: ${this.counter}`;
     }
 
-    setPosX(newPosX){
-        this.posX = newPosX;
+    getScore(){
+        return this.counter;
     }
 
-    getPosY(){
-        return this.posY;
+
+    renderTargets(){
+    let targetArray = [];
+
+    const appel = new Image();
+    appel.src = "./img/apfel.png";
+    targetArray.push(appel);
+
+    const banana = new Image();
+    banana.src = "./img/banane.png";
+    targetArray.push(banana);
+
+    const pineapple = new Image();
+    pineapple.src = "./img/ananas.png";
+    targetArray.push(pineapple);
+
+    let randomIndex = Math.floor(Math.random() * targetArray.length);
+    this.targetImg = targetArray[randomIndex];
+
     }
 
-    setPosY(newPosY){
-        this.posY = newPosY;
+
+    
+
+    draw() {
+        c.drawImage(this.targetImg, this.posX, this.posY, 30, 30);
     }
 
-    renderRandomizedTarget(){
-        let newPosX = Math.floor(Math.random()*this.cageWidth);
-        let newPosY = Math.floor(Math.random()*this.cageHeight);
+    update(PacManPos) {
+        let gotYou = false;
+        //console.log(Math.abs(this.posX - (PacManPos.x - this.radius)) , Math.abs(this.posY - (PacManPos.y - this.radius)));
 
-        this.setPosX(newPosX)
-        this.setPosY(newPosY)
+        if((Math.abs((this.posX - (PacManPos.x - this.radius))) < 15) && Math.abs((this.posY - (PacManPos.y - this.radius))) < 15) {
 
-        dot.style.top = `${this.posY}px`;
-        dot.style.left = `${this.posX}px`;
-        dot.style.display = "block";
-    }
-
-    gotMe(snakePos){
-        if (Math.abs(snakePos.x - this.getPosX()) <= 15 && Math.abs(snakePos.y - (this.getPosY()+20)) <= 15) {
-
-            this.renderRandomizedTarget();
-            this.scoreCount++;
+            this.renderTargets();
+            this.randomizePosition();
+            this.draw();
+            gotYou = true;
         }
-        score.innerHTML = `Score: ${this.scoreCount}`
+        return gotYou;
     }
+
+    randomizePosition(){
+        this.posX = this.getRandomIntInclusive(130, (canvas.width-30));
+        this.posY = this.getRandomIntInclusive(230, (canvas.height-30));
+
+    }
+
+    getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1) + min); 
+        // The maximum is inclusive and the minimum is inclusive
+      }
 
 }
 

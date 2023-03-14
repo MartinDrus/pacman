@@ -1,128 +1,179 @@
 
-let main = document.querySelector("main");
-let theSnake = document.querySelector("#snake");
-let pacMan = document.querySelector("img");
+let canvas = document.querySelector("#canvas");
+let c = canvas.getContext("2d");
 
 class Snake {
-    motionSpeed = 1;
     currentDirection = "ArrowRight";
+    speed = 5;
+    radius = 15;
 
-    constructor(cage){
-        this.limitX = cage.getWidth();
-        this.limitY = cage.getHeight();
-        this.wallSize = cage.getBorderSize();
-        this.snakeHeadSize = parseInt(getComputedStyle(theSnake).width.slice(0, -2));
-        this.currentPosX = 0;
-        this.currentPosY = 0;
+    constructor(limitX, limitY){
+        this.posX = this.radius;
+        this.posY = this.radius;
+        this.limitX = limitX;
+        this.limitY = limitY;
+        this.startAngle = 0.25;
+        this.endAngle = 1.25;
+        this.eyeX = 0;
+        this.eyeY = -10;
     }
 
-    setPosX(posX) {
-        this.currentPosX = posX;
+    reset(){
+        this.posX = this.radius;
+        this.posY = this.radius;
+        this.currentDirection = "ArrowRight";
+        this.speed = 5;
+        this.startAngle = 0.25;
+        this.endAngle = 1.25;
+        this.eyeX = 0;
+        this.eyeY = -10;
     }
 
-    setPosY(posY) {
-        this.currentPosY = posY;
+    increaseSpeed(){
+        this.speed += 0.25;
     }
 
-    resetPosX() {
-        this.setPosX(0);
-        this.setPosY(0);
+    draw() {
+        c.beginPath();
+        c.arc(this.posX, this.posY, this.radius, this.startAngle * Math.PI, this.endAngle * Math.PI, false);
+        c.fillStyle = "rgb(255, 255, 0)";
+        c.fill();
+        c.beginPath();
+        c.arc(this.posX, this.posY, this.radius, (this.startAngle + 0.5) * Math.PI, (this.endAngle + 0.5) * Math.PI, false);
+        c.fill();
+        c.beginPath();
+        c.arc(this.posX + this.eyeX, this.posY + this.eyeY, 2.5, 0, 2 * Math.PI, false);
+        c.fillStyle = "rgb(0, 0, 0)";
+        c.fill();
     }
 
-    getSnakeSize(){
-        return snakeHeadSize;
-    }
 
     changeDirection(e){
         let directionSelectedByUser = e.key;
     
         switch (directionSelectedByUser) {
-            case "ArrowRight":
+            case "d":
+                if (this.currentDirection !== "d" && this.currentDirection !== "a") {
+                    this.currentDirection = directionSelectedByUser;
+                    this.startAngle = 0.25;
+                    this.endAngle = 1.25;
+                    this.eyeX = 0;
+                    this.eyeY = -10;
+                }
+                break;
+            case "ArrowRight": 
                 if (this.currentDirection !== "ArrowRight" && this.currentDirection !== "ArrowLeft") {
                     this.currentDirection = directionSelectedByUser;
-                    pacMan.style.transform = "rotate(0turn)";
+                    this.startAngle = 0.25;
+                    this.endAngle = 1.25;
+                    this.eyeX = 0;
+                    this.eyeY = -10;
                 }
+            
                 break;
-            case "ArrowLeft":
+            case "a":
+                if (this.currentDirection !== "a" && this.currentDirection !== "d") {
+                    this.currentDirection = directionSelectedByUser;
+                    this.startAngle = 1.25;
+                    this.endAngle = 0.25;
+                    this.eyeX = 0;
+                    this.eyeY = -10;
+                }
+            
+                break;
+            case "ArrowLeft": 
                 if (this.currentDirection !== "ArrowRight" && this.currentDirection !== "ArrowLeft") {
                     this.currentDirection = directionSelectedByUser;
-                    pacMan.style.transform = "scaleX(-1)";
+                    this.startAngle = 1.25;
+                    this.endAngle = 0.25;
+                    this.eyeX = 0;
+                    this.eyeY = -10;
                 }
+            
                 break;
-            case "ArrowUp":
+            case "w":
+                if (this.currentDirection !== "w" && this.currentDirection !== "s") {
+                    this.currentDirection = directionSelectedByUser;
+                    this.startAngle = 1.75;
+                    this.endAngle = 0.75;
+                    this.eyeX = 10;
+                    this.eyeY = 0;
+
+                }
+            
+                break;
+            case "ArrowUp": 
                 if (this.currentDirection !== "ArrowUp" && this.currentDirection !== "ArrowDown") {
                     this.currentDirection = directionSelectedByUser;
-                    pacMan.style.transform = "rotate(0.75turn)";
+                    this.startAngle = 1.75;
+                    this.endAngle = 0.75;
+                    this.eyeX = 10;
+                    this.eyeY = 0;
+
                 }
+            
                 break;
-            case "ArrowDown":
+            case "s":
+                if (this.currentDirection !== "s" && this.currentDirection !== "w") {
+                    this.currentDirection = directionSelectedByUser;
+                    this.startAngle = 0.75;
+                    this.endAngle = 1.75;
+                    this.eyeX = 10;
+                    this.eyeY = 0;
+                }
+            
+                break;
+            case "ArrowDown": 
                 if (this.currentDirection !== "ArrowUp" && this.currentDirection !== "ArrowDown") {
                     this.currentDirection = directionSelectedByUser;
-                    pacMan.style.transform = "rotate(0.25turn)";
+                    this.startAngle = 0.75;
+                    this.endAngle = 1.75;
+                    this.eyeX = 10;
+                    this.eyeY = 0;
                 }
+            
                 break;
             default:
                 break;
         }
+
     }
 
-    letsGoSnake(nIntervId) {
+    letsGoSnake() {
+        let collision = false;
         let pos = {};
-
         switch (this.currentDirection) {
+            case "w":
             case "ArrowUp":
-                if (this.currentPosY > 0) {
-                    this.currentPosY -= this.motionSpeed;
-                } else this.tryAgain(nIntervId);
+                if (this.posY > this.radius) {
+                    this.posY -= this.speed;
+                } else collision = true;
                 break;
+            case "s":
             case "ArrowDown":
-                if (this.currentPosY < (this.limitY - this.snakeHeadSize)) {
-                    this.currentPosY += this.motionSpeed;
-                } else this.tryAgain(nIntervId);
+                if (this.posY < this.limitY - this.radius ) {
+                    this.posY += this.speed;
+                } else collision = true;
                 break;
+            case "d":
             case "ArrowRight":
-                if (this.currentPosX < (this.limitX - this.snakeHeadSize)) {
-                    this.currentPosX += this.motionSpeed;
-                } else this.tryAgain(nIntervId);
+                if (this.posX < this.limitX - this.radius ) {
+                    this.posX += this.speed;
+                } else collision = true;
                 break;
+            case "a":
             case "ArrowLeft":
-                if (this.currentPosX > 0) {
-                    this.currentPosX -= this.motionSpeed;
-                } else this.tryAgain(nIntervId);
+                if (this.posX > this.radius) {
+                    this.posX -= this.speed;
+                } else collision = true;
                 break;  
             default:
                 break;
         }
-    
-        if (this.currentDirection === "ArrowRight" || this.currentDirection === "ArrowLeft") {
-            theSnake.style.left = `${this.currentPosX}px`;
-        } else if (this.currentDirection === "ArrowUp" || this.currentDirection === "ArrowDown") {
-            theSnake.style.top = `${this.currentPosY}px`;
-        }
-        return pos = {x: this.currentPosX, y: this.currentPosY}
+        this.draw();
+        return pos = {x: this.posX, y: this.posY, gameOver: collision};
     }
 
-    tryAgain(nIntervId){
-        clearInterval(nIntervId);
-        this.resetPosX();
-
-        let container = document.createElement('div');
-        container.style.position = "relative";
-        container.style.left = "50%";
-        container.style.top = "50%";
-
-        let text = document.createElement('h2');
-        text.innerText = "Try Again!";
-        
-        let retryBtn = document.createElement('button');
-        retryBtn.id = "retry-btn";
-        retryBtn.innerHTML = "Retry"
-
-        container.appendChild(text);
-        container.appendChild(retryBtn);
-
-        main.appendChild(container);
-    }
 
 }
 

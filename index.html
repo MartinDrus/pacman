@@ -5,31 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Martin Drus">
-    <meta name="description" content="example">
+    <meta name="description" content="PacMan">
 
     <link rel="stylesheet" href="css/styles.css">
 
-    <title>example</title>
+    <title>PacMan</title>
 
 </head>
 <body>
     <header>
-        <button id="start-btn">Start</button>
-        <h3 id="score">Score: 0</h3>
+
     </header>
 
     <main>
-        <div id="playground">
-            <div id="snake">
-                <img src="./img/pacman_icon-icons.com_63747.png" alt="pacman">
+        <div id="controlContainer">
+            <div id="innerBox">
+                <button type="submit" id="start-btn">Start</button>
+                <h3 id="score">Score: 0</h3>
             </div>
-            <div id="target"></div>
+            <div id="scoretab"></div>
         </div>
+        <div class="countdown" id="id-3">3</div>
+        <div class="countdown" id="id-2">2</div>
+        <div class="countdown" id="id-1">1</div>
+
+        <div id="retry-box">GAMEOVER
+            <form id="input-form">
+                <input id="name-input" placeholder="name" type="text">
+                <button id="submit-btn">Submit</button>
+            </form>
+            <button id="retry-btn">Retry</button>
+        </div>
+        <canvas id="canvas"></canvas>
+
     </main>
 
     <footer>
 
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
